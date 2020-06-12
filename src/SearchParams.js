@@ -16,7 +16,7 @@ const SearchParams = () => {
     pet.breeds(animal).then(({ breeds }) => {
       const breedStrings = breeds.map(({ name }) => name);
       setBreeds(breedStrings);
-    }, console.error); 
+    }, console.error);
     // Here we define the dependencies of useEffect. So we only want this effect to run again when animal is changed
   }, [animal]);
 
@@ -27,15 +27,17 @@ const SearchParams = () => {
       type: animal
     });
 
-    setPets(animals || [])
+    setPets(animals || []);
   }
 
   return (
     <div className="search-params">
-      <form onSubmit={e => {
-        e.preventDefault();
-        requestPets();
-      }}>
+      <form
+        onSubmit={e => {
+          e.preventDefault();
+          requestPets();
+        }}
+      >
         <label htmlFor="location">
           Location
           <input
