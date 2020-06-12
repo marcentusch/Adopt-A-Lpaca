@@ -1,38 +1,55 @@
 import React, { useState, useEffect } from "react";
 import pet, { ANIMALS } from "@frontendmasters/pet";
+import Results from "./Results";
 import useDropdown from "./useDropdown";
 
 const SearchParams = () => {
-  const [location, updateLocation] = useState("Seattle, WA");
-  const [breeds, updateBreeds] = useState([]);
+  const [location, setLocation] = useState("Seattle, WA");
+  const [breeds, setBreeds] = useState([]);
+  const [pets, setPets] = useState([]);
   const [animal, AnimalDropdown] = useDropdown("Animal", "dog", ANIMALS);
-  const [breed, BreedDropdown, updateBreed] = useDropdown("Breed", "", breeds);
+  const [breed, BreedDropdown, setBreed] = useDropdown("Breed", "", breeds);
 
   useEffect(() => {
-    updateBreeds([]);
-    updateBreed("");
+    setBreeds([]);
+    setBreed("");
     pet.breeds(animal).then(({ breeds }) => {
       const breedStrings = breeds.map(({ name }) => name);
-      updateBreeds(breedStrings);
-    }, console.error);
+      setBreeds(breedStrings);
+    }, console.error); 
+    // Here we define the dependencies of useEffect. So we only want this effect to run again when animal is changed
   }, [animal]);
+
+  async function requestPets() {
+    const { animals } = await pet.animals({
+      location,
+      breed,
+      type: animal
+    });
+
+    setPets(animals || [])
+  }
 
   return (
     <div className="search-params">
-      <form>
+      <form onSubmit={e => {
+        e.preventDefault();
+        requestPets();
+      }}>
         <label htmlFor="location">
           Location
           <input
             id="location"
             value={location}
             placeholder="Location"
-            onChange={e => updateLocation(e.target.value)}
+            onChange={e => setLocation(e.target.value)}
           />
         </label>
         <AnimalDropdown />
         <BreedDropdown />
         <button>Submit</button>
       </form>
+      <Results pets={pets}></Results>
     </div>
   );
 };

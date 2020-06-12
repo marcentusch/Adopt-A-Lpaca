@@ -3,7 +3,7 @@ import React, { useState } from "react";
 // Simple hook for creating dropdowns
 // Give it a label, some default value and the options you want
 const useDropdown = (label, defaultState, options) => {
-  const [state, updateState] = useState(defaultState);
+  const [state, setState] = useState(defaultState);
   const id = `use-dropdown-${label.replace(" ", "").toLowerCase()}`;
   const Dropdown = () => (
     <label htmlFor={id}>
@@ -11,8 +11,8 @@ const useDropdown = (label, defaultState, options) => {
       <select
         id={id}
         value={state}
-        onChange={e => updateState(e.target.value)}
-        onBlur={e => updateState(e.target.value)}
+        onChange={e => setState(e.target.value)}
+        onBlur={e => setState(e.target.value)}
         disabled={!options.length}
       >
         <option />
@@ -24,7 +24,7 @@ const useDropdown = (label, defaultState, options) => {
       </select>
     </label>
   );
-  return [state, Dropdown, updateState];
+  return [state, Dropdown, setState];
 };
 
 export default useDropdown;
