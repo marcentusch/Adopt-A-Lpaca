@@ -13,8 +13,14 @@ Project to learn new React features and other stuff I was missing:
 * Redux
 * Proper testing
 
-Styling is material from "Frontend Masters Complete Intro to React v5"
+Styling is material from "Frontend Masters - Intermediate React v2"
 
+## About technologies
+Project uses React and covers most of the main features
+Uses Parcel for bundling since it is extremely simple and easy to setup
+
+### Reach Router
+Reach Router is used instead of React Router because it has a big accesibility focus so it handles focus well and also has simple API
 
 ## Development
 Install packages with `npm install`
