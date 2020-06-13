@@ -1,6 +1,7 @@
 import React from "react";
 import pet from "@frontendmasters/pet";
 import Carousel from "./Carousel.js";
+import ErrorBoundary from "./ErrorBoundary.js"
 
 class Details extends React.Component {
   state = { loading: true };
@@ -43,4 +44,12 @@ class Details extends React.Component {
   }
 }
 
-export default Details;
+// We are using ErrorBoundary as kind of middleware so if there is an error on details we show ErrorBoundary content
+export default function DetailsErrorBoundary(props) {
+    // Use spread operator to spread out all props across details component
+    return (
+      <ErrorBoundary>
+        <Details {...props} />
+      </ErrorBoundary>
+    );
+  }
