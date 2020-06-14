@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
-import { Router, Link } from "@reach/router";
+import { Router } from "@reach/router";
 import SearchParams from "./SearchParams";
 import Details from "./Details";
 import ThemeContext from "./ThemeContext";
+import NavBar from "./NavBar"
 
 const App = () => {
   const themeHook = useState("peru");
@@ -12,9 +13,7 @@ const App = () => {
     // Important thing about using Context here is that app is always rendered so this state will persist beyond page navigation
     <ThemeContext.Provider value={themeHook}>
       <div>
-        <header>
-          <Link to="/">Adopt Me!</Link>
-        </header>
+        <NavBar></NavBar>
         <Router>
           <SearchParams path="/" />
           <Details path="/details/:id"></Details>
