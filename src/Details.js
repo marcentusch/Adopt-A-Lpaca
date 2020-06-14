@@ -1,16 +1,19 @@
 import React from "react";
 import pet from "@frontendmasters/pet";
+import { navigate } from "@reach/router";
+import Modal from "./Modal";
 import Carousel from "./Carousel.js";
 import ErrorBoundary from "./ErrorBoundary.js";
 import ThemeContext from "./ThemeContext";
 
 class Details extends React.Component {
-  state = { loading: true };
+  state = { loading: true, showModal: false };
   componentDidMount() {
     pet
       .animal(this.props.id)
       .then(({ animal }) => {
         this.setState({
+          url: animal.url,
           name: animal.name,
           animal: animal.type,
           location: `${animal.contact.address.city}, ${animal.contact.address.state}`,
@@ -22,12 +25,25 @@ class Details extends React.Component {
       })
       .catch(err => this.setState({ error: err }));
   }
+
+  toggleModal = () => this.setState({ showModal: !this.state.showModal });
+
+  adopt = () => navigate(this.state.url);
+
   render() {
     if (this.state.loading) {
       return <h1>loading … </h1>;
     }
 
-    const { animal, breed, location, description, media, name } = this.state;
+    const {
+      animal,
+      breed,
+      location,
+      description,
+      media,
+      name,
+      showModal
+    } = this.state;
 
     return (
       <div className="details">
@@ -39,11 +55,23 @@ class Details extends React.Component {
           <ThemeContext.Consumer>
             {([theme]) => (
               // This is the weird way you have to do context with class components
-              <button style={{ background: theme }}>Adopt {name}</button>
+              <button onClick={this.toggleModal} style={{ background: theme }}>
+                Adopt {name}
+              </button>
             )}
           </ThemeContext.Consumer>
 
           <p>{description}</p>
+
+          {showModal ? (
+            <Modal>
+              <h1>Would you like to adopt {name}?</h1>
+              <div className="buttons">
+                <button onClick={this.adopt}>Yes</button>
+                <button onClick={this.toggleModal}>No, I am a monster</button>
+              </div>
+            </Modal>
+          ) : null}
         </div>
       </div>
     );
