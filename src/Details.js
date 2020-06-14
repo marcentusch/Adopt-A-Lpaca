@@ -1,7 +1,8 @@
 import React from "react";
 import pet from "@frontendmasters/pet";
 import Carousel from "./Carousel.js";
-import ErrorBoundary from "./ErrorBoundary.js"
+import ErrorBoundary from "./ErrorBoundary.js";
+import ThemeContext from "./ThemeContext";
 
 class Details extends React.Component {
   state = { loading: true };
@@ -12,9 +13,7 @@ class Details extends React.Component {
         this.setState({
           name: animal.name,
           animal: animal.type,
-          location: `${animal.contact.address.city}, ${
-            animal.contact.address.state
-          }`,
+          location: `${animal.contact.address.city}, ${animal.contact.address.state}`,
           description: animal.description,
           media: animal.photos,
           breed: animal.breeds.primary,
@@ -36,7 +35,14 @@ class Details extends React.Component {
         <div>
           <h1>{name}</h1>
           <h2>{`${animal} — ${breed} — ${location}`}</h2>
-          <button>Adopt {name}</button>
+
+          <ThemeContext.Consumer>
+            {([theme]) => (
+              // This is the weird way you have to do context with class components
+              <button style={{ background: theme }}>Adopt {name}</button>
+            )}
+          </ThemeContext.Consumer>
+
           <p>{description}</p>
         </div>
       </div>
@@ -46,10 +52,10 @@ class Details extends React.Component {
 
 // We are using ErrorBoundary as kind of middleware so if there is an error on details we show ErrorBoundary content
 export default function DetailsErrorBoundary(props) {
-    // Use spread operator to spread out all props across details component
-    return (
-      <ErrorBoundary>
-        <Details {...props} />
-      </ErrorBoundary>
-    );
-  }
+  // Use spread operator to spread out all props across details component
+  return (
+    <ErrorBoundary>
+      <Details {...props} />
+    </ErrorBoundary>
+  );
+}

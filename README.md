@@ -11,11 +11,12 @@ Project to learn new React features and other stuff I was missing:
 * React with Typescript
 * Server Side Rendering
 * Redux
+* Context
 * Proper testing
 
 Styling is material from "Frontend Masters - Intermediate React v2"
 
-## About technologies
+## About 
 Project uses React and covers most of the main features
 Uses Parcel for bundling since it is extremely simple and easy to setup
 
