@@ -1,11 +1,15 @@
-import React from "react";
+import React, { lazy } from "react";
 import pet from "@frontendmasters/pet";
 import { navigate } from "@reach/router";
-import Modal from "./Modal";
 import Carousel from "./Carousel.js";
 import ErrorBoundary from "./ErrorBoundary.js";
 import ThemeContext from "./ThemeContext";
 
+// This is all we have to do to lazy load a component. Awesome!
+const Modal = lazy(() => import('./Modal'))
+
+// This component is lazy loaded from App.js, just to point out that this component needs no changes 
+// for it to work with code splitting. If we used a large library like moment it would also only be loaded when this component is loaded
 class Details extends React.Component {
   state = { loading: true, showModal: false };
   componentDidMount() {
